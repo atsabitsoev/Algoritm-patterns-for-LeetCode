@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backtracking — LeetCode Patterns</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <meta name="description" content="Паттерн Backtracking для LeetCode: объяснение, лучшие практики, swift-код, советы и задачи.">
+  <meta name="keywords" content="leetcode, паттерны, backtracking, swift, алгоритмы, задачи, программирование">
+  <meta property="og:title" content="Backtracking — LeetCode Patterns">
+  <meta property="og:description" content="Паттерн Backtracking для LeetCode: объяснение, лучшие практики, swift-код, советы и задачи.">
+  <meta property="og:type" content="website">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen font-sans" id="body">
+  <div class="max-w-2xl mx-auto py-12 px-4">
+    <a href="index.html" class="text-purple-600 hover:underline">← К содержанию</a>
+    <h1 class="text-3xl font-bold text-purple-700 mt-4 mb-4">14. Backtracking</h1>
+    <p class="mb-4">Backtracking — паттерн для поиска всех решений задачи путём перебора вариантов с возвратом (откатом) при невозможности продолжения. Используется для задач на комбинации, перестановки, разбиения, поиска путей.</p>
+    <h2 class="text-xl font-semibold mb-2">Когда использовать?</h2>
+    <p class="mb-4">Когда задача требует перебора всех возможных вариантов, поиска всех комбинаций, перестановок, путей, разбиений, а также когда решение можно строить по частям и откатываться при невозможности продолжения.</p>
+    <h2 class="text-xl font-semibold mb-2">Объяснение</h2>
+    <img src="картинки/backtracking.png" alt="Backtracking" class="w-full max-w-2xl rounded shadow mb-6 mx-auto" />
+    <ul class="list-disc ml-6 mb-4">
+      <li>Используйте рекурсивную функцию с параметрами текущего состояния и индекса.</li>
+      <li>Добавляйте частичное решение в результат только при достижении базового случая.</li>
+      <li>В задачах на комбинации и перестановки избегайте повторов с помощью сортировки и пропуска одинаковых элементов (если не запрещено).</li>
+      <li>Не используйте глобальные переменные, если задача этого не требует.</li>
+      <li>Внимательно относитесь к ограничениям задачи: не используйте sort, если это явно запрещено.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Лучшее решение на LeetCode</h2>
+    <p class="mb-4">На LeetCode для задач на backtracking важно реализовать рекурсивную функцию с параметрами текущего состояния, избегать глобальных переменных и внимательно относиться к ограничениям задачи (например, не использовать sort, если это запрещено).</p>
+    <h2 class="text-xl font-semibold mb-2">Пример задачи</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> candidates = [2,3,6,7], target = 7<br>
+      <b>Задача:</b> Найти все уникальные комбинации, сумма которых равна target.<br>
+      <b>Выход:</b> [[2,2,3],[7]]
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Swift пример (без sort, если запрещено)</h2>
+    <pre class="bg-gray-100 rounded p-4 mb-4" style="min-width:1300px; max-width:100%; overflow-x:auto; white-space:pre;"> <code class="language-swift">func combinationSum(_ candidates: [Int], _ target: Int) -&gt; [[Int]] {
+    var result = [[Int]]()
+    func backtrack(_ remain: Int, _ comb: [Int], _ start: Int) {
+        if remain == 0 {
+            result.append(comb)
+            return
+        }
+        if remain &lt; 0 { return }
+        for i in start..&lt;candidates.count {
+            backtrack(remain - candidates[i], comb + [candidates[i]], i)
+        }
+    }
+    backtrack(target, [], 0)
+    return result
+}
+</code></pre>
+    <h2 class="text-xl font-semibold mb-2">LeetCode задачи</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/combination-sum/" class="text-purple-600 underline">Combination Sum (#39)</a> — решение без sort, если запрещено</li>
+      <li><a href="https://leetcode.com/problems/permutations/" class="text-purple-600 underline">Permutations (#46)</a></li>
+      <li><a href="https://leetcode.com/problems/subsets/" class="text-purple-600 underline">Subsets (#78)</a></li>
+    </ul>
+    <div class="flex justify-between mt-8 mb-4">
+      <a href="pattern-13.html" class="text-purple-600 hover:underline">← Предыдущий</a>
+      <a href="pattern-15.html" class="text-purple-600 hover:underline">Следующий →</a>
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Дополнительный пример</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> nums = [1,2,3]<br>
+      <b>Задача:</b> Найти все перестановки.<br>
+      <b>Выход:</b> [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Советы и типичные ошибки</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Не используйте sort, если это запрещено в задаче.</li>
+      <li>Внимательно относитесь к условиям выхода из рекурсии.</li>
+      <li>Избегайте глобальных переменных без необходимости.</li>
+      <li>Проверяйте ограничения задачи: уникальность, порядок, повторения.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Связанные паттерны</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="pattern-13.html" class="text-purple-600 underline">Matrix Traversal</a></li>
+      <li><a href="pattern-15.html" class="text-purple-600 underline">Greedy</a></li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Дополнительные ресурсы</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/combination-sum/solution/" class="text-purple-600 underline" target="_blank">LeetCode Solution: Combination Sum</a></li>
+      <li><a href="https://swift.org/documentation/" class="text-purple-600 underline" target="_blank">Официальная документация Swift</a></li>
+    </ul>
+    <form class="mt-8 mb-4" action="mailto:your@email.com" method="post" enctype="text/plain">
+      <label class="block mb-2 text-gray-700">Обратная связь:</label>
+      <textarea name="feedback" class="w-full p-2 rounded border border-gray-300 mb-2" rows="3" placeholder="Ваши пожелания или вопросы..."></textarea>
+      <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Отправить</button>
+    </form>
+    <button id="theme-toggle" class="mt-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Сменить тему</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js"></script>
+  <script>hljs.highlightAll();
+  document.getElementById('theme-toggle').onclick = function() {
+    const body = document.getElementById('body');
+    if (body.classList.contains('bg-gradient-to-br')) {
+      body.classList.remove('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+      body.classList.add('bg-gray-900', 'text-white');
+    } else {
+      body.classList.remove('bg-gray-900', 'text-white');
+      body.classList.add('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+    }
+  };
+  </script>
+</body>
+</html> 

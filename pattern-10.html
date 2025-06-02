@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Tree Traversal — LeetCode Patterns</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <meta name="description" content="Паттерн Binary Tree Traversal для LeetCode: объяснение, примеры, swift-код, советы и задачи.">
+  <meta name="keywords" content="leetcode, паттерны, binary tree, traversal, swift, алгоритмы, задачи, программирование">
+  <meta property="og:title" content="Binary Tree Traversal — LeetCode Patterns">
+  <meta property="og:description" content="Паттерн Binary Tree Traversal для LeetCode: объяснение, примеры, swift-код, советы и задачи.">
+  <meta property="og:type" content="website">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen font-sans" id="body">
+  <div class="max-w-2xl mx-auto py-12 px-4">
+    <a href="index.html" class="text-purple-600 hover:underline">← К содержанию</a>
+    <h1 class="text-3xl font-bold text-purple-700 mt-4 mb-4">10. Binary Tree Traversal</h1>
+    <p class="mb-4">Binary Tree Traversal — паттерн для обхода бинарного дерева различными способами: in-order, pre-order, post-order, level-order. Используется для поиска, сортировки, анализа структуры дерева.</p>
+    <h2 class="text-xl font-semibold mb-2">Когда использовать?</h2>
+    <p class="mb-4">Когда задача связана с деревьями: поиск, подсчёт, преобразование, сериализация, восстановление структуры и др.</p>
+    <h2 class="text-xl font-semibold mb-2">Объяснение</h2>
+    <img src="картинки/Binary tree traversal.png" alt="Binary Tree Traversal" class="w-full max-w-2xl rounded shadow mb-6 mx-auto" />
+    <ul class="list-disc ml-6 mb-4">
+      <li>In-order (лево-корень-право): используется для получения отсортированной последовательности из BST.</li>
+      <li>Pre-order (корень-лево-право): полезен для копирования дерева, сериализации.</li>
+      <li>Post-order (лево-право-корень): применяется для удаления дерева, вычисления высоты.</li>
+      <li>Level-order (BFS): обход по уровням, часто реализуется через очередь.</li>
+      <li>Обходы могут быть реализованы рекурсивно или с помощью стека/очереди.</li>
+      <li>Паттерн встречается во многих задачах на деревья: поиск пути, балансировка, подсчёт листьев и др.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Пример задачи</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> root = [1,null,2,3]<br>
+      <b>Задача:</b> In-order обход дерева.<br>
+      <b>Выход:</b> [1,3,2]
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Swift пример</h2>
+    <pre class="bg-gray-100 rounded p-4 mb-4" style="min-width:600px; max-width:100%; overflow-x:auto; white-space:pre;"> <code class="language-swift">class TreeNode {
+    var val: Int
+    var left: TreeNode?
+    var right: TreeNode?
+    init(_ val: Int) { self.val = val; self.left = nil; self.right = nil }
+}
+
+func inorderTraversal(_ root: TreeNode?) -&gt; [Int] {
+    var result = [Int]()
+    func dfs(_ node: TreeNode?) {
+        guard let node = node else { return }
+        dfs(node.left)
+        result.append(node.val)
+        dfs(node.right)
+    }
+    dfs(root)
+    return result
+}
+</code></pre>
+    <h2 class="text-xl font-semibold mb-2">LeetCode задачи</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/binary-tree-inorder-traversal/" class="text-purple-600 underline">Binary Tree Inorder Traversal (#94)</a></li>
+      <li><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" class="text-purple-600 underline">Binary Tree Level Order Traversal (#102)</a></li>
+      <li><a href="https://leetcode.com/problems/binary-tree-preorder-traversal/" class="text-purple-600 underline">Binary Tree Preorder Traversal (#144)</a></li>
+    </ul>
+    <div class="flex justify-between mt-8 mb-4">
+      <a href="pattern-9.html" class="text-purple-600 hover:underline">← Предыдущий</a>
+      <a href="pattern-11.html" class="text-purple-600 hover:underline">Следующий →</a>
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Дополнительный пример</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> root = [3,9,20,null,null,15,7]<br>
+      <b>Задача:</b> Level-order обход дерева.<br>
+      <b>Выход:</b> [[3],[9,20],[15,7]]
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Советы и типичные ошибки</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Не забывайте проверять на nil перед рекурсией.</li>
+      <li>Для level-order используйте очередь (Queue).</li>
+      <li>Внимательно относитесь к порядку обхода (in/pre/post).</li>
+      <li>В задачах на сериализацию/десериализацию учитывайте null-узлы.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Связанные паттерны</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="pattern-11.html" class="text-purple-600 underline">Depth-First Search (DFS)</a></li>
+      <li><a href="pattern-12.html" class="text-purple-600 underline">Breadth-First Search (BFS)</a></li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Дополнительные ресурсы</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/binary-tree-inorder-traversal/solution/" class="text-purple-600 underline" target="_blank">LeetCode Solution: Binary Tree Inorder Traversal</a></li>
+      <li><a href="https://swift.org/documentation/" class="text-purple-600 underline" target="_blank">Официальная документация Swift</a></li>
+    </ul>
+    <form class="mt-8 mb-4" action="mailto:your@email.com" method="post" enctype="text/plain">
+      <label class="block mb-2 text-gray-700">Обратная связь:</label>
+      <textarea name="feedback" class="w-full p-2 rounded border border-gray-300 mb-2" rows="3" placeholder="Ваши пожелания или вопросы..."></textarea>
+      <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Отправить</button>
+    </form>
+    <button id="theme-toggle" class="mt-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Сменить тему</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js"></script>
+  <script>hljs.highlightAll();
+  document.getElementById('theme-toggle').onclick = function() {
+    const body = document.getElementById('body');
+    if (body.classList.contains('bg-gradient-to-br')) {
+      body.classList.remove('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+      body.classList.add('bg-gray-900', 'text-white');
+    } else {
+      body.classList.remove('bg-gray-900', 'text-white');
+      body.classList.add('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+    }
+  };
+  </script>
+</body>
+</html> 

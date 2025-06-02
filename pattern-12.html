@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Breadth-First Search (BFS) — LeetCode Patterns</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <meta name="description" content="Паттерн Breadth-First Search (BFS) для LeetCode: объяснение, лучшие практики, swift-код, советы и задачи.">
+  <meta name="keywords" content="leetcode, паттерны, bfs, breadth-first search, swift, алгоритмы, задачи, программирование">
+  <meta property="og:title" content="Breadth-First Search (BFS) — LeetCode Patterns">
+  <meta property="og:description" content="Паттерн Breadth-First Search (BFS) для LeetCode: объяснение, лучшие практики, swift-код, советы и задачи.">
+  <meta property="og:type" content="website">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen font-sans" id="body">
+  <div class="max-w-2xl mx-auto py-12 px-4">
+    <a href="index.html" class="text-purple-600 hover:underline">← К содержанию</a>
+    <h1 class="text-3xl font-bold text-purple-700 mt-4 mb-4">12. Breadth-First Search (BFS)</h1>
+    <p class="mb-4">BFS — паттерн для поиска в ширину в графах, деревьях и матрицах. Используется для поиска кратчайших путей, уровней, компонент связности и др.</p>
+    <h2 class="text-xl font-semibold mb-2">Когда использовать?</h2>
+    <p class="mb-4">Когда задача требует поиска кратчайшего пути, минимального количества шагов, обхода по уровням, поиска ближайших элементов.</p>
+    <h2 class="text-xl font-semibold mb-2">Объяснение</h2>
+    <img src="картинки/breadth first search (bfs).png" alt="Breadth-First Search (BFS)" class="w-full max-w-2xl rounded shadow mb-6 mx-auto" />
+    <h2 class="text-xl font-semibold mb-2">Лучшее решение на LeetCode</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>BFS реализуется с помощью очереди (Queue), обычно через массив или deque.</li>
+      <li>В задачах на кратчайший путь (например, "Number of Islands", "Minimum Depth of Binary Tree") BFS гарантирует минимальное количество шагов.</li>
+      <li>На LeetCode часто запрещено использовать сторонние структуры данных, поэтому очередь реализуется через массив и два указателя (head/tail) или через стандартный массив с удалением первого элемента (но это менее эффективно).</li>
+      <li>Важно отмечать посещённые вершины сразу при добавлении в очередь, чтобы избежать повторного посещения.</li>
+      <li>В задачах на матрицы BFS часто применяется для поиска областей, заполнения, распространения волн и др.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Пример задачи</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> grid = [["1","1","0","0"],["1","0","0","1"],["0","0","1","1"]]<br>
+      <b>Задача:</b> Найти количество островов (областей из единиц) с помощью BFS.<br>
+      <b>Выход:</b> 2
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Swift пример (без сторонних очередей)</h2>
+    <pre class="bg-gray-100 rounded p-4 mb-4" style="min-width:1300px; max-width:100%; overflow-x:auto; white-space:pre;"> <code class="language-swift">func numIslands(_ grid: [[Character]]) -&gt; Int {
+    var grid = grid
+    let rows = grid.count, cols = grid[0].count
+    var count = 0
+    let directions = [(0,1),(1,0),(0,-1),(-1,0)]
+    for r in 0..&lt;rows {
+        for c in 0..&lt;cols {
+            if grid[r][c] == "1" {
+                count += 1
+                var queue = [(r, c)]
+                grid[r][c] = "0"
+                var head = 0
+                while head &lt; queue.count {
+                    let (cr, cc) = queue[head]
+                    head += 1
+                    for (dr, dc) in directions {
+                        let nr = cr + dr, nc = cc + dc
+                        if nr &gt;= 0 &amp;&amp; nr &lt; rows &amp;&amp; nc &gt;= 0 &amp;&amp; nc &lt; cols &amp;&amp; grid[nr][nc] == "1" {
+                            grid[nr][nc] = "0"
+                            queue.append((nr, nc))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return count
+}
+</code></pre>
+    <h2 class="text-xl font-semibold mb-2">LeetCode задачи</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/number-of-islands/" class="text-purple-600 underline">Number of Islands (#200)</a> — BFS-решение без сторонних очередей</li>
+      <li><a href="https://leetcode.com/problems/minimum-depth-of-binary-tree/" class="text-purple-600 underline">Minimum Depth of Binary Tree (#111)</a></li>
+      <li><a href="https://leetcode.com/problems/word-ladder/" class="text-purple-600 underline">Word Ladder (#127)</a></li>
+    </ul>
+    <div class="flex justify-between mt-8 mb-4">
+      <a href="pattern-11.html" class="text-purple-600 hover:underline">← Предыдущий</a>
+      <a href="pattern-13.html" class="text-purple-600 hover:underline">Следующий →</a>
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Дополнительный пример</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> beginWord = "hit", endWord = "cog", wordList = ["hot","dot","dog","lot","log","cog"]<br>
+      <b>Задача:</b> Найти длину кратчайшей трансформации (Word Ladder).<br>
+      <b>Выход:</b> 5
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Советы и типичные ошибки</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Отмечайте посещённые вершины сразу при добавлении в очередь.</li>
+      <li>Не используйте сторонние очереди, если это запрещено в задаче.</li>
+      <li>В задачах на графы используйте словарь/массив для visited.</li>
+      <li>Внимательно относитесь к условиям выхода из цикла.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Связанные паттерны</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="pattern-11.html" class="text-purple-600 underline">Depth-First Search (DFS)</a></li>
+      <li><a href="pattern-13.html" class="text-purple-600 underline">Matrix Traversal</a></li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Дополнительные ресурсы</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/number-of-islands/solution/" class="text-purple-600 underline" target="_blank">LeetCode Solution: Number of Islands</a></li>
+      <li><a href="https://swift.org/documentation/" class="text-purple-600 underline" target="_blank">Официальная документация Swift</a></li>
+    </ul>
+    <form class="mt-8 mb-4" action="mailto:your@email.com" method="post" enctype="text/plain">
+      <label class="block mb-2 text-gray-700">Обратная связь:</label>
+      <textarea name="feedback" class="w-full p-2 rounded border border-gray-300 mb-2" rows="3" placeholder="Ваши пожелания или вопросы..."></textarea>
+      <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Отправить</button>
+    </form>
+    <button id="theme-toggle" class="mt-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Сменить тему</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js"></script>
+  <script>hljs.highlightAll();
+  document.getElementById('theme-toggle').onclick = function() {
+    const body = document.getElementById('body');
+    if (body.classList.contains('bg-gradient-to-br')) {
+      body.classList.remove('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+      body.classList.add('bg-gray-900', 'text-white');
+    } else {
+      body.classList.remove('bg-gray-900', 'text-white');
+      body.classList.add('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+    }
+  };
+  </script>
+</body>
+</html> 

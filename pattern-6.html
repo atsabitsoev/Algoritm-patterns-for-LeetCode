@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monotonic Stack — LeetCode Patterns</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <meta name="description" content="Паттерн Monotonic Stack для LeetCode: объяснение, примеры, swift-код, советы и задачи.">
+  <meta name="keywords" content="leetcode, паттерны, monotonic stack, swift, алгоритмы, задачи, программирование">
+  <meta property="og:title" content="Monotonic Stack — LeetCode Patterns">
+  <meta property="og:description" content="Паттерн Monotonic Stack для LeetCode: объяснение, примеры, swift-код, советы и задачи.">
+  <meta property="og:type" content="website">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen font-sans" id="body">
+  <div class="max-w-2xl mx-auto py-12 px-4">
+    <a href="index.html" class="text-purple-600 hover:underline">← К содержанию</a>
+    <h1 class="text-3xl font-bold text-purple-700 mt-4 mb-4">6. Monotonic Stack</h1>
+    <p class="mb-4">Monotonic Stack — это стек, в котором элементы поддерживаются в строго возрастающем или убывающем порядке. Используется для поиска ближайших больших/малых элементов слева или справа.</p>
+    <h2 class="text-xl font-semibold mb-2">Когда использовать?</h2>
+    <p class="mb-4">Когда нужно быстро находить ближайший больший/меньший элемент для каждого элемента массива, а также для задач на интервалы, диапазоны и обработку последовательностей.</p>
+    <h2 class="text-xl font-semibold mb-2">Объяснение</h2>
+    <img src="картинки/monotonic stack.png" alt="Monotonic Stack" class="w-full max-w-2xl rounded shadow mb-6 mx-auto" />
+    <ul class="list-disc ml-6 mb-4">
+      <li>В монотонном стеке элементы добавляются и удаляются так, чтобы стек всегда оставался отсортированным (по возрастанию или убыванию).</li>
+      <li>При обработке каждого элемента массива мы сравниваем его с вершиной стека и удаляем элементы, которые нарушают порядок.</li>
+      <li>Это позволяет за один проход находить ближайшие большие/малые элементы для каждой позиции.</li>
+      <li>Паттерн часто используется для задач на диапазоны, интервалы, обработку температур, высот, цен и др.</li>
+      <li>Важное преимущество — все операции выполняются за O(n), так как каждый элемент добавляется и удаляется максимум один раз.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Пример задачи</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> heights = [2, 1, 5, 6, 2, 3]<br>
+      <b>Задача:</b> Найти площадь наибольшего прямоугольника в гистограмме.<br>
+      <b>Выход:</b> 10
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Swift пример</h2>
+    <pre class="bg-gray-100 rounded p-4 mb-4" style="min-width:1300px; max-width:100%; overflow-x:auto; white-space:pre;"> <code class="language-swift">func largestRectangleArea(_ heights: [Int]) -&gt; Int {
+    var stack = [Int]()
+    var maxArea = 0
+    var heights = heights + [0]
+    var i = 0
+    while i &lt; heights.count {
+        if stack.isEmpty || heights[i] &gt;= heights[stack.last!] {
+            stack.append(i)
+            i += 1
+        } else {
+            let h = heights[stack.removeLast()]
+            let w = stack.isEmpty ? i : i - stack.last! - 1
+            maxArea = max(maxArea, h * w)
+        }
+    }
+    return maxArea
+}
+</code></pre>
+    <h2 class="text-xl font-semibold mb-2">LeetCode задачи</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" class="text-purple-600 underline">Largest Rectangle in Histogram (#84)</a></li>
+      <li><a href="https://leetcode.com/problems/daily-temperatures/" class="text-purple-600 underline">Daily Temperatures (#739)</a></li>
+      <li><a href="https://leetcode.com/problems/next-greater-element-ii/" class="text-purple-600 underline">Next Greater Element II (#503)</a></li>
+    </ul>
+    <div class="flex justify-between mt-8 mb-4">
+      <a href="pattern-5.html" class="text-purple-600 hover:underline">← Предыдущий</a>
+      <a href="pattern-7.html" class="text-purple-600 hover:underline">Следующий →</a>
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Дополнительный пример</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> temperatures = [73, 74, 75, 71, 69, 72, 76, 73]<br>
+      <b>Задача:</b> Для каждого дня найти, через сколько дней будет теплее.<br>
+      <b>Выход:</b> [1, 1, 4, 2, 1, 1, 0, 0]
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Советы и типичные ошибки</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Не забывайте добавлять фиктивный элемент (например, 0) в конец массива для корректного завершения обработки.</li>
+      <li>Проверьте, что стек не пуст перед обращением к его вершине.</li>
+      <li>Внимательно относитесь к индексам при вычислении ширины диапазона.</li>
+      <li>Монотонный стек может быть как возрастающим, так и убывающим — выберите нужный для вашей задачи.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Связанные паттерны</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="pattern-7.html" class="text-purple-600 underline">Top K Elements</a></li>
+      <li><a href="pattern-8.html" class="text-purple-600 underline">Overlapping Intervals</a></li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Дополнительные ресурсы</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/solution/" class="text-purple-600 underline" target="_blank">LeetCode Solution: Largest Rectangle in Histogram</a></li>
+      <li><a href="https://swift.org/documentation/" class="text-purple-600 underline" target="_blank">Официальная документация Swift</a></li>
+    </ul>
+    <form class="mt-8 mb-4" action="mailto:your@email.com" method="post" enctype="text/plain">
+      <label class="block mb-2 text-gray-700">Обратная связь:</label>
+      <textarea name="feedback" class="w-full p-2 rounded border border-gray-300 mb-2" rows="3" placeholder="Ваши пожелания или вопросы..."></textarea>
+      <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Отправить</button>
+    </form>
+    <button id="theme-toggle" class="mt-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Сменить тему</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js"></script>
+  <script>hljs.highlightAll();
+  document.getElementById('theme-toggle').onclick = function() {
+    const body = document.getElementById('body');
+    if (body.classList.contains('bg-gradient-to-br')) {
+      body.classList.remove('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+      body.classList.add('bg-gray-900', 'text-white');
+    } else {
+      body.classList.remove('bg-gray-900', 'text-white');
+      body.classList.add('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+    }
+  };
+  </script>
+</body>
+</html> 

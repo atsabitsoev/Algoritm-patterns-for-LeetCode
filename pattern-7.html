@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top K Elements — LeetCode Patterns</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <meta name="description" content="Паттерн Top K Elements для LeetCode: объяснение, примеры, swift-код, советы и задачи.">
+  <meta name="keywords" content="leetcode, паттерны, top k, heap, swift, алгоритмы, задачи, программирование">
+  <meta property="og:title" content="Top K Elements — LeetCode Patterns">
+  <meta property="og:description" content="Паттерн Top K Elements для LeetCode: объяснение, примеры, swift-код, советы и задачи.">
+  <meta property="og:type" content="website">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen font-sans" id="body">
+  <div class="max-w-2xl mx-auto py-12 px-4">
+    <a href="index.html" class="text-purple-600 hover:underline">← К содержанию</a>
+    <h1 class="text-3xl font-bold text-purple-700 mt-4 mb-4">7. Top K Elements</h1>
+    <p class="mb-4">Top K Elements — паттерн для поиска k наибольших или наименьших элементов в массиве или потоке данных. Обычно реализуется с помощью кучи (heap).</p>
+    <h2 class="text-xl font-semibold mb-2">Когда использовать?</h2>
+    <p class="mb-4">Когда нужно быстро находить k максимальных/минимальных элементов, медиану, k ближайших точек и т.д., особенно если данные поступают потоком.</p>
+    <h2 class="text-xl font-semibold mb-2">Объяснение</h2>
+    <img src="картинки/top k elements.png" alt="Top K Elements" class="w-full max-w-2xl rounded shadow mb-6 mx-auto" />
+    <ul class="list-disc ml-6 mb-4">
+      <li>Используется min-heap (для поиска k наибольших) или max-heap (для поиска k наименьших).</li>
+      <li>В кучу помещаются элементы, поддерживается размер k.</li>
+      <li>Если добавляется новый элемент и размер превышает k, удаляется минимальный (или максимальный) элемент.</li>
+      <li>В результате в куче остаются нужные k элементов.</li>
+      <li>Паттерн часто используется для задач на топ-k частот, k ближайших точек, медиану в потоке и др.</li>
+      <li>В Swift можно использовать массив и сортировку, но для больших данных heap эффективнее (O(n log k)).</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Пример задачи</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> nums = [3,2,1,5,6,4], k = 2<br>
+      <b>Выход:</b> 5 (второй по величине элемент)
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Swift пример</h2>
+    <pre class="bg-gray-100 rounded p-4 overflow-x-auto mb-4"><code class="language-swift">func findKthLargest(_ nums: [Int], _ k: Int) -&gt; Int {
+    let sorted = nums.sorted(by: &gt;)
+    return sorted[k-1]
+}
+
+let nums = [3,2,1,5,6,4]
+let result = findKthLargest(nums, 2) // 5
+</code></pre>
+    <h2 class="text-xl font-semibold mb-2">LeetCode задачи</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" class="text-purple-600 underline">Kth Largest Element in an Array (#215)</a></li>
+      <li><a href="https://leetcode.com/problems/top-k-frequent-elements/" class="text-purple-600 underline">Top K Frequent Elements (#347)</a></li>
+      <li><a href="https://leetcode.com/problems/k-closest-points-to-origin/" class="text-purple-600 underline">K Closest Points to Origin (#973)</a></li>
+    </ul>
+    <div class="flex justify-between mt-8 mb-4">
+      <a href="pattern-6.html" class="text-purple-600 hover:underline">← Предыдущий</a>
+      <a href="pattern-8.html" class="text-purple-600 hover:underline">Следующий →</a>
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Дополнительный пример</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> nums = [1,1,1,2,2,3], k = 2<br>
+      <b>Задача:</b> Найти два самых частых элемента.<br>
+      <b>Выход:</b> [1,2]
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Советы и типичные ошибки</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Для больших данных используйте heap, а не сортировку.</li>
+      <li>Проверьте, что k не превышает размер массива.</li>
+      <li>В задачах с частотами используйте словарь для подсчёта.</li>
+      <li>Внимательно относитесь к порядку элементов при одинаковых значениях.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Связанные паттерны</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="pattern-6.html" class="text-purple-600 underline">Monotonic Stack</a></li>
+      <li><a href="pattern-9.html" class="text-purple-600 underline">Modified Binary Search</a></li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Дополнительные ресурсы</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/solution/" class="text-purple-600 underline" target="_blank">LeetCode Solution: Kth Largest Element</a></li>
+      <li><a href="https://swift.org/documentation/" class="text-purple-600 underline" target="_blank">Официальная документация Swift</a></li>
+    </ul>
+    <form class="mt-8 mb-4" action="mailto:your@email.com" method="post" enctype="text/plain">
+      <label class="block mb-2 text-gray-700">Обратная связь:</label>
+      <textarea name="feedback" class="w-full p-2 rounded border border-gray-300 mb-2" rows="3" placeholder="Ваши пожелания или вопросы..."></textarea>
+      <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Отправить</button>
+    </form>
+    <button id="theme-toggle" class="mt-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Сменить тему</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js"></script>
+  <script>hljs.highlightAll();
+  document.getElementById('theme-toggle').onclick = function() {
+    const body = document.getElementById('body');
+    if (body.classList.contains('bg-gradient-to-br')) {
+      body.classList.remove('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+      body.classList.add('bg-gray-900', 'text-white');
+    } else {
+      body.classList.remove('bg-gray-900', 'text-white');
+      body.classList.add('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+    }
+  };
+  </script>
+</body>
+</html> 

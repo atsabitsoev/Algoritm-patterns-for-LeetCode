@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greedy — LeetCode Patterns</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <meta name="description" content="Паттерн Greedy для LeetCode: объяснение, лучшие практики, swift-код, советы и задачи.">
+  <meta name="keywords" content="leetcode, паттерны, greedy, swift, алгоритмы, задачи, программирование">
+  <meta property="og:title" content="Greedy — LeetCode Patterns">
+  <meta property="og:description" content="Паттерн Greedy для LeetCode: объяснение, лучшие практики, swift-код, советы и задачи.">
+  <meta property="og:type" content="website">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-purple-100 min-h-screen font-sans" id="body">
+  <div class="max-w-2xl mx-auto py-12 px-4">
+    <a href="index.html" class="text-purple-600 hover:underline">← К содержанию</a>
+    <h1 class="text-3xl font-bold text-purple-700 mt-4 mb-4">15. Greedy</h1>
+    <p class="mb-4">Greedy — жадный паттерн, при котором на каждом шаге выбирается локально оптимальное решение с надеждой получить глобально оптимальный результат. Используется для задач на покрытие, интервалы, размен монет, задачи на оптимизацию.</p>
+    <h2 class="text-xl font-semibold mb-2">Когда использовать?</h2>
+    <p class="mb-4">Когда задача допускает локальные решения, которые приводят к глобальному оптимуму, либо когда требуется минимизация/максимизация ресурса, покрытия, количества шагов.</p>
+    <h2 class="text-xl font-semibold mb-2">Объяснение</h2>
+    <img src="картинки/dynamic programming.png" alt="Greedy / Dynamic Programming" class="w-full max-w-2xl rounded shadow mb-6 mx-auto" />
+    <ul class="list-disc ml-6 mb-4">
+      <li>Жадные решения часто требуют сортировки входных данных (если это не запрещено).</li>
+      <li>В задачах на интервалы сортируйте по началу или концу интервала для оптимального выбора.</li>
+      <li>В задачах на покрытие (например, размен монет) выбирайте наибольший возможный номинал на каждом шаге.</li>
+      <li>На LeetCode иногда запрещено использовать sort — в этом случае ищите альтернативные подходы (например, подсчёт частот).</li>
+      <li>Проверяйте, что жадный выбор действительно приводит к оптимальному результату (контрпримеры!).</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Лучшее решение на LeetCode</h2>
+    <p class="mb-4">На LeetCode жадные решения часто требуют сортировки, но иногда это запрещено условиями задачи — в этом случае ищите альтернативные подходы (например, подсчёт частот). Важно проверять, что жадный выбор действительно приводит к оптимальному результату.</p>
+    <h2 class="text-xl font-semibold mb-2">Пример задачи</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> coins = [1,2,5], amount = 11<br>
+      <b>Задача:</b> Найти минимальное количество монет для суммы amount.<br>
+      <b>Выход:</b> 3 (5+5+1)
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Swift пример (жадный подход, если разрешено)</h2>
+    <pre class="bg-gray-100 rounded p-4 mb-4" style="min-width:1300px; max-width:100%; overflow-x:auto; white-space:pre;"> <code class="language-swift">func coinChange(_ coins: [Int], _ amount: Int) -&gt; Int {
+    let coins = coins.sorted(by: &gt;) // Используем sort, если не запрещено
+    var amount = amount
+    var count = 0
+    for coin in coins {
+        let use = amount / coin
+        count += use
+        amount -= use * coin
+    }
+    return amount == 0 ? count : -1
+}
+</code></pre>
+    <h2 class="text-xl font-semibold mb-2">LeetCode задачи</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/coin-change/" class="text-purple-600 underline">Coin Change (#322)</a> — жадный подход, если разрешено</li>
+      <li><a href="https://leetcode.com/problems/jump-game/" class="text-purple-600 underline">Jump Game (#55)</a></li>
+      <li><a href="https://leetcode.com/problems/merge-intervals/" class="text-purple-600 underline">Merge Intervals (#56)</a></li>
+    </ul>
+    <div class="flex justify-between mt-8 mb-4">
+      <a href="pattern-14.html" class="text-purple-600 hover:underline">← Предыдущий</a>
+      <a href="index.html" class="text-purple-600 hover:underline">К оглавлению →</a>
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Дополнительный пример</h2>
+    <div class="bg-white rounded p-4 shadow mb-4">
+      <b>Вход:</b> intervals = [[1,3],[2,6],[8,10],[15,18]]<br>
+      <b>Задача:</b> Объединить пересекающиеся интервалы.<br>
+      <b>Выход:</b> [[1,6],[8,10],[15,18]]
+    </div>
+    <h2 class="text-xl font-semibold mb-2">Советы и типичные ошибки</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li>Проверьте, не запрещено ли использовать sort в задаче.</li>
+      <li>Жадные решения не всегда работают — ищите контрпримеры.</li>
+      <li>В задачах на интервалы сортируйте по нужному критерию.</li>
+      <li>В задачах на покрытие выбирайте наибольший возможный элемент.</li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Связанные паттерны</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="pattern-14.html" class="text-purple-600 underline">Backtracking</a></li>
+      <li><a href="pattern-1.html" class="text-purple-600 underline">Prefix Sum</a></li>
+    </ul>
+    <h2 class="text-xl font-semibold mb-2">Дополнительные ресурсы</h2>
+    <ul class="list-disc ml-6 mb-4">
+      <li><a href="https://leetcode.com/problems/coin-change/solution/" class="text-purple-600 underline" target="_blank">LeetCode Solution: Coin Change</a></li>
+      <li><a href="https://swift.org/documentation/" class="text-purple-600 underline" target="_blank">Официальная документация Swift</a></li>
+    </ul>
+    <form class="mt-8 mb-4" action="mailto:your@email.com" method="post" enctype="text/plain">
+      <label class="block mb-2 text-gray-700">Обратная связь:</label>
+      <textarea name="feedback" class="w-full p-2 rounded border border-gray-300 mb-2" rows="3" placeholder="Ваши пожелания или вопросы..."></textarea>
+      <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">Отправить</button>
+    </form>
+    <button id="theme-toggle" class="mt-4 px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Сменить тему</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/swift.min.js"></script>
+  <script>hljs.highlightAll();
+  document.getElementById('theme-toggle').onclick = function() {
+    const body = document.getElementById('body');
+    if (body.classList.contains('bg-gradient-to-br')) {
+      body.classList.remove('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+      body.classList.add('bg-gray-900', 'text-white');
+    } else {
+      body.classList.remove('bg-gray-900', 'text-white');
+      body.classList.add('bg-gradient-to-br', 'from-blue-50', 'to-purple-100');
+    }
+  };
+  </script>
+</body>
+</html> 
